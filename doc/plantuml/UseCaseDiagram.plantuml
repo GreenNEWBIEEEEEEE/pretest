@@ -1,0 +1,23 @@
+@startuml
+left to right direction
+actor "User" as user
+actor "Admin" as admin
+
+rectangle Ecommerce {
+    usecase "Create Coupon" as uc0
+    usecase "Create Product" as uc3
+    usecase "Search Products" as uc1
+    usecase "Import Order" as uc2
+    usecase "Search Products By Price" as uc1_1
+    usecase "Search Products By Keywords" as uc1_2
+    usecase "Import Order With Coupon" as uc2_1
+
+}
+admin --> uc0
+admin --> uc3
+user --> uc1
+user --> uc2
+uc1 <-- uc1_1 : <<extend>>
+uc1 <-- uc1_2 : <<extend>>
+uc2 <-- uc2_1 : <<extend>>
+@enduml

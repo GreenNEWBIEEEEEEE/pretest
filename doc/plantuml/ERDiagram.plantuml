@@ -1,0 +1,49 @@
+@startuml ER Diagram
+
+entity "Product" as product {
+  * id: int <<PK>>
+  --
+  name: varchar(200)
+  price: decimal(10, 2)
+  created_at: datetime
+}
+
+entity "Coupon" as coupon {
+  * code: varchar(50) <<PK>>
+  --
+  discount_type: varchar(10)
+  value: decimal(10, 2)
+  expiration_date: datetime
+  active: boolean
+}
+
+entity "Order" as order {
+  * order_number: varchar(100) <<PK>>
+  --
+  total_price: decimal(10, 3)
+  discount_amount: decimal(10, 3)
+  created_time: datetime
+  coupon_id: int <<FK>>
+}
+
+' OrderItem 是 Order 和 Product 之間的多對多關聯表
+entity "OrderItem" as order_item {
+  * id: int <<PK>>
+  --
+  order_id: varchar(100) <<FK>>
+  product_id: int <<FK>>
+  quantity: int
+  price_at_purchase: decimal(10, 2)
+}
+
+
+' 一個 Coupon 可以被用在多個 Order 中 (一對多)
+' 一個 Order 只能使用零或一張 Coupon
+coupon }o--|| order
+
+' Order 與 Product 的多對多關聯
+order ||--o{ order_item
+product ||--o{ order_item
+
+
+@enduml
